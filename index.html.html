@@ -1,0 +1,104 @@
+<!DOCTYPE html> <html lang="ru"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta name="theme-color" content="#070b1b"> <title>Одна особенная звезда</title>
+<style> \* { box-sizing: border-box; }
+
+body { margin: 0; min-height: 100vh; overflow: hidden; color: #f5f0df; background: radial-gradient(ellipse at 50% 45%, #1a274b, #0b1229 55%, #050814); font-family: Georgia, serif; }
+
+#sky { position: fixed; inset: 0; width: 100%; height: 100%; }
+
+.content { position: relative; z-index: 2; min-height: 100vh; display: grid; place-items: center; text-align: center; padding: 25px; pointer-events: none; }
+
+.intro { max-width: 650px; transform: translateY(-65px); animation: appear 2s ease both; }
+
+.eyebrow { color: #c6b987; letter-spacing: 4px; text-transform: uppercase; font: 10px Arial, sans-serif; }
+
+h1 { font-size: clamp(38px, 8vw, 76px); font-weight: 400; line-height: 1.1; margin: 22px 0; text-shadow: 0 0 35px rgba(221,199,139,.2); }
+
+.subtitle { color: #c3c8d8; font-size: 17px; line-height: 1.8; }
+
+.hint { margin-top: 35px; color: #c6b987; font: 10px Arial, sans-serif; letter-spacing: 3px; animation: breathe 3s infinite; }
+
+.star-button { position: fixed; z-index: 4; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 82px; height: 82px; border: none; border-radius: 50%; background: transparent; cursor: pointer; filter: drop-shadow(0 0 20px #f6d98a); }
+
+.star-button::before { content: ""; position: absolute; inset: 15px; background: #fff4c8; clip-path: polygon( 50% 0, 61% 37%, 100% 50%, 61% 63%, 50% 100%, 39% 63%, 0 50%, 39% 37% ); animation: pulse 3s infinite; }
+
+.star-button::after { content: ""; position: absolute; inset: 0; border: 1px solid rgba(246,217,138,.3); border-radius: 50%; animation: ring 3s infinite; }
+
+.star-label { position: fixed; z-index: 3; left: 50%; top: calc(50% + 58px); transform: translateX(-50%); color: #e5d7a8; white-space: nowrap; font: 10px Arial, sans-serif; letter-spacing: 3px; }
+
+.footer { position: fixed; bottom: 22px; width: 100%; text-align: center; color: rgba(205,211,229,.45); font: 9px Arial, sans-serif; letter-spacing: 3px; }
+
+.overlay { position: fixed; z-index: 8; inset: 0; display: grid; place-items: center; padding: 22px; background: rgba(2,5,16,.75); backdrop-filter: blur(10px); opacity: 0; visibility: hidden; transition: .8s; }
+
+.overlay.open { opacity: 1; visibility: visible; }
+
+.card { width: min(540px, 100%); padding: 45px 30px; text-align: center; border: 1px solid rgba(220,204,154,.3); background: linear-gradient(145deg, #182341, #080e20); box-shadow: 0 25px 100px rgba(0,0,0,.5); transform: translateY(20px); transition: .8s; }
+
+.overlay.open .card { transform: translateY(0); }
+
+.card-star { color: #f8e8b4; font-size: 38px; margin-bottom: 20px; text-shadow: 0 0 25px #f6d98a; }
+
+.card h2 { font-size: 35px; font-weight: 400; margin: 20px 0; }
+
+.message { color: #d6d9e3; font-size: 17px; line-height: 1.9; white-space: pre-wrap; }
+
+.close { margin-top: 30px; padding: 13px 22px; border: 1px solid rgba(220,204,154,.5); background: transparent; color: #e9ddb7; font: 10px Arial, sans-serif; letter-spacing: 2px; cursor: pointer; }
+
+@keyframes pulse { 0%, 100% { transform: rotate(45deg) scale(.9); } 50% { transform: rotate(45deg) scale(1.15); } }
+
+@keyframes ring { 0% { transform: scale(.55); opacity: .8; } 100% { transform: scale(1.6); opacity: 0; } }
+
+@keyframes breathe { 0%, 100% { opacity: .4; } 50% { opacity: 1; } }
+
+@keyframes appear { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(-65px); } }
+
+@media (max-width: 480px) { .subtitle { font-size: 15px; } .card h2 { font-size: 29px; } .card { padding: 35px 22px; } } </style> </head>
+<body>
+<main class="content"> <section class="intro"> <div class="eyebrow">A LITTLE PIECE OF THE UNIVERSE</div>
+<h1>Одна особенная звезда</h1>
+<div class="subtitle"> Среди бесконечного неба есть кое-что,<br> что я хотел бы тебе показать. </div>
+<div class="hint">НАЙДИ И КОСНИСЬ ЗВЕЗДЫ</div> </section> </main>
+<div class="star-label">ДЛЯ ТЕБЯ</div>
+<div class="overlay" id="overlay"> <section class="card"> <div class="card-star">✦</div>
+<div class="eyebrow">A STAR JUST FOR YOU</div>
+<h2>Ты — моя особенная звезда</h2>
+<div class="message" id="message"> Иногда среди огромной Вселенной хочется остановиться и просто посмотреть на одну звезду.
+Здесь будет твоё личное послание. 
+
+ ВЕРНУТЬСЯ К ЗВЁЗДАМ   
+<div class="footer">SOMEWHERE UNDER THE SAME SKY</div>
+<script> const canvas = document.getElementById("sky"); const ctx = canvas.getContext("2d");
+
+let stars = $begin:math:display$$end:math:display$; let width; let height;
+
+function resize() { const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+width = window.innerWidth; height = window.innerHeight;
+
+canvas.width = width \* dpr; canvas.height = height \* dpr;
+
+ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+stars = $begin:math:display$$end:math:display$;
+
+for (let i = 0; i < 180; i++) { stars.push({ x: Math.random() \* width, y: Math.random() \* height, size: Math.random() \* 1.4 + 0.3, opacity: Math.random() \* 0.7 + 0.2, speed: Math.random() \* 0.015 + 0.003, phase: Math.random() \* Math.PI \* 2 }); } }
+
+function draw(time) { ctx.clearRect(0, 0, width, height);
+
+stars.forEach(star => { const opacity = star.opacity + Math.sin(time \* star.speed + star.phase) \* 0.18;
+
+ctx.beginPath(); ctx.arc(star.x, star.y, star.size, 0, Math.PI \* 2); ctx.fillStyle = \`rgba(231,236,255,${opacity})\`; ctx.fill(); });
+
+requestAnimationFrame(draw); }
+
+resize(); window.addEventListener("resize", resize); requestAnimationFrame(draw);
+
+const overlay = document.getElementById("overlay"); const star = document.getElementById("specialStar"); const closeButton = document.getElementById("closeButton");
+
+star.addEventListener("click", () => { overlay.classList.add("open"); });
+
+closeButton.addEventListener("click", () => { overlay.classList.remove("open"); });
+
+overlay.addEventListener("click", event => { if (event.target === overlay) { overlay.classList.remove("open"); } });
+
+document.addEventListener("keydown", event => { if (event.key === "Escape") { overlay.classList.remove("open"); } }); </script>
+</body> </html>
